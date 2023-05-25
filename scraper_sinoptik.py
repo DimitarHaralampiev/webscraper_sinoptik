@@ -117,36 +117,3 @@ class SinoptikScraper:
         return weather_data_forecast
 
 
-def current_weather(town: str):
-    """
-    Retrieves and saves the current weather data for a given town.
-
-    Args:
-        town (str): The name of the town.
-    """
-    try:
-        scraper = SinoptikScraper()
-        entry = scraper.scrape_current_weather(town)
-        if entry:
-            weather_data = CSVHelper(entry, 'weather_data.csv')
-            weather_data.write_csv()
-    except ValueError:
-        print('ERROR current weather')
-
-
-def weather_ten_days(town: str, days: str):
-    """
-    Retrieves and saves the weather forecast data for the next ten days for a given town.
-
-    Args:
-        town (str): The name of the town.
-        days (str): The number of days to retrieve the weather forecast for.
-    """
-    try:
-        scraper = SinoptikScraper()
-        forecast_weather = scraper.scrape_weather_ten_days(town, days)
-        if forecast_weather:
-            weather_data = CSVHelper(forecast_weather, 'forecast_weather_data.csv')
-            weather_data.write_csv()
-    except ValueError:
-        print('ERROR forecast weather')
