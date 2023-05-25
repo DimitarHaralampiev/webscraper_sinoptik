@@ -47,7 +47,7 @@ class BuildingCSVFiles:
         self.weather_ten_days()
         self.current_weather()
 
-        # Reading data for ten days
+        # Reading data for forecast
         weather_data_forecast = pd.read_csv('forecast_weather_data.csv')
 
         # Reading data for current weather
