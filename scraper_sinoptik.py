@@ -13,22 +13,19 @@ class SinoptikScraper:
         self.town = town
         self.period = period
 
-    def get_sinoptik_base_url(self):
+    def __get_sinoptik_base_url(self):
         return f'https://weather.sinoptik.bg/'
 
     def scrape_current_weather(self):
         """
         Scrape the current weather data for a given town.
 
-        Args:
-            town (str): The name of the town to scrape the weather data for.
-
         Returns:
             list: A list containing the scraped current weather data.
         """
         try:
 
-            url = self.get_sinoptik_base_url() + self.town
+            url = self.__get_sinoptik_base_url() + self.town
 
             soup = BeautifulSoup(requests.get(url).content, 'html.parser')
 
@@ -70,10 +67,6 @@ class SinoptikScraper:
         """
         Scrape the weather data for the next ten days for a given town.
 
-        Args:
-            town (str): The name of the town to scrape the weather data for.
-            days (str): The number of days to retrieve the forecast for.
-
         Returns:
             list: A list containing the scraped weather data for the next ten days.
         """
@@ -81,7 +74,7 @@ class SinoptikScraper:
 
         try:
 
-            url = self.get_sinoptik_base_url() + self.town + '/' + self.period
+            url = self.__get_sinoptik_base_url() + self.town + '/' + self.period
 
             soup_ten_days = BeautifulSoup(requests.get(url).content, 'html.parser')
 
