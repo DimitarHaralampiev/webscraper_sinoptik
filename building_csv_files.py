@@ -19,7 +19,7 @@ class BuildingCSVFilesForWeather(SinoptikScraper):
                 weather_data = CSVHelper(entry, 'weather_data.csv')
                 weather_data.write_csv()
         except ValueError:
-            print('ERROR current weather')
+            print('ERROR retrieving or saving current weather data')
 
     def retrieve_and_save_forecast_weather(self):
         """
@@ -31,7 +31,7 @@ class BuildingCSVFilesForWeather(SinoptikScraper):
                 weather_data = CSVHelper(forecast_weather, 'forecast_weather_data.csv')
                 weather_data.write_csv()
         except ValueError:
-            print('ERROR forecast weather')
+            print('ERROR retrieving or saving forecast weather data')
 
     def generate_combined_weather_csv(self):
         """

@@ -62,9 +62,9 @@ class SinoptikScraper:
                     'Humidity': humidity
                 }]
             except ValueError:
-                print('Error span class current weather')
+                print('Error retrieving current weather data')
         except ValueError:
-            print('ERROR url current weather')
+            print('ERROR retrieving current weather URL')
 
     def scrape_weather_ten_days(self):
         """
@@ -113,9 +113,9 @@ class SinoptikScraper:
                             'Humidity': humidity,
                         })
                     except ValueError:
-                        print('ERROR span class for ten days')
+                        print('ERROR retrieving forecast weather data')
         except ValueError:
-            print('ERROR url for ten days')
+            print('ERROR retrieving forecast weather URL')
 
         return weather_data_forecast
 
