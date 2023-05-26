@@ -10,12 +10,9 @@ class BuildingCSVFiles:
         self.town = town
         self.period = period
 
-    def current_weather(self):
+    def retrieve_and_save_current_weather(self):
         """
         Retrieves and saves the current weather data for a given town.
-
-        Args:
-            town (str): The name of the town.
         """
         try:
             scraper = SinoptikScraper()
@@ -26,13 +23,9 @@ class BuildingCSVFiles:
         except ValueError:
             print('ERROR current weather')
 
-    def weather_ten_days(self):
+    def retrieve_and_save_forecast_weather(self):
         """
         Retrieves and saves the weather forecast data for the next ten days for a given town.
-
-        Args:
-            town (str): The name of the town.
-            days (str): The number of days to retrieve the weather forecast for.
         """
         try:
             scraper = SinoptikScraper()
@@ -43,18 +36,20 @@ class BuildingCSVFiles:
         except ValueError:
             print('ERROR forecast weather')
 
-    def combined_files_weather(self):
-        self.weather_ten_days()
-        self.current_weather()
+    def generate_combined_weather_csv(self):
+        """
+        Combines the current weather and forecast weather data into a single CSV file.
 
-        # Reading data for forecast
+        Retrieves the weather forecast data for the next ten days and the current weather data for a given town.
+        Then, combines the data into a single DataFrame and saves it as a CSV file.
+        """
+        self.retrieve_and_save_forecast_weather()
+        self.retrieve_and_save_current_weather()
+
         weather_data_forecast = pd.read_csv('forecast_weather_data.csv')
 
-        # Reading data for current weather
         weather_data_current = pd.read_csv('weather_data.csv')
 
-        # Concat data from current and tend days weather
         combined_data = pd.concat([weather_data_current, weather_data_forecast], axis=1)
 
-        # Create csv file with combined data
         combined_data.to_csv('combined_data_weather.csv', index=False)

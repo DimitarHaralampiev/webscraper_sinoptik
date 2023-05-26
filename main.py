@@ -6,6 +6,6 @@ period = input('Please enter Period: ')
 
 if __name__ == '__main__':
     weather_data = BuildingCSVFiles(town, period)
-    weather_data.combined_files_weather()
+    weather_data.generate_combined_weather_csv()
 
 
