@@ -9,8 +9,14 @@ class SinoptikScraper:
     """
         A class for scraping weather data from sinoptik.bg.
     """
-    @staticmethod
-    def scrape_current_weather(town: str):
+    def __init__(self, town: str, period=None):
+        self.town = town
+        self.period = period
+
+    def get_sinoptik_base_url(self):
+        return f'https://weather.sinoptik.bg/'
+
+    def scrape_current_weather(self):
         """
         Scrape the current weather data for a given town.
 
@@ -22,9 +28,9 @@ class SinoptikScraper:
         """
         try:
 
-            url = requests.get(f'https://weather.sinoptik.bg/{town}')
+            url = self.get_sinoptik_base_url() + self.town
 
-            soup = BeautifulSoup(url.content, 'html.parser')
+            soup = BeautifulSoup(requests.get(url).content, 'html.parser')
 
             try:
 
@@ -46,7 +52,7 @@ class SinoptikScraper:
                 current_time = str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
                 return [{
-                    'Town': town.split('-')[0],
+                    'Town': self.town.split('-')[0],
                     'Day': current_day,
                     'Current time': current_time,
                     'Current Temp.': current_weather_temp,
@@ -60,8 +66,7 @@ class SinoptikScraper:
         except ValueError:
             print('ERROR url current weather')
 
-    @staticmethod
-    def scrape_weather_ten_days(town: str, days: str):
+    def scrape_weather_ten_days(self):
         """
         Scrape the weather data for the next ten days for a given town.
 
@@ -76,9 +81,9 @@ class SinoptikScraper:
 
         try:
 
-            url_ten_days = requests.get(f'https://weather.sinoptik.bg/{town}/{days}')
+            url = self.get_sinoptik_base_url() + self.town + '/' + self.period
 
-            soup_ten_days = BeautifulSoup(url_ten_days.content, 'html.parser')
+            soup_ten_days = BeautifulSoup(requests.get(url).content, 'html.parser')
 
             ten_days_weather = soup_ten_days.find('div', class_='wf10dayRightContent')
 
@@ -98,7 +103,7 @@ class SinoptikScraper:
                         formatting_forecast_date = str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
                         weather_data_forecast.append({
-                            'Town': town.split('-')[0],
+                            'Town': self.town.split('-')[0],
                             'Day': forecast_day,
                             'Current time': formatting_forecast_date,
                             'Date': forecast_date,

@@ -4,19 +4,17 @@ from csv_helper import CSVHelper
 from scraper_sinoptik import SinoptikScraper
 
 
-class BuildingCSVFiles:
+class BuildingCSVFilesForWeather(SinoptikScraper):
 
     def __init__(self, town: str, period: str):
-        self.town = town
-        self.period = period
+        super().__init__(town, period)
 
     def retrieve_and_save_current_weather(self):
         """
         Retrieves and saves the current weather data for a given town.
         """
         try:
-            scraper = SinoptikScraper()
-            entry = scraper.scrape_current_weather(self.town)
+            entry = self.scrape_current_weather()
             if entry:
                 weather_data = CSVHelper(entry, 'weather_data.csv')
                 weather_data.write_csv()
@@ -28,8 +26,7 @@ class BuildingCSVFiles:
         Retrieves and saves the weather forecast data for the next ten days for a given town.
         """
         try:
-            scraper = SinoptikScraper()
-            forecast_weather = scraper.scrape_weather_ten_days(self.town, self.period)
+            forecast_weather = self.scrape_weather_ten_days()
             if forecast_weather:
                 weather_data = CSVHelper(forecast_weather, 'forecast_weather_data.csv')
                 weather_data.write_csv()
