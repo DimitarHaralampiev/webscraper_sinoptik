@@ -35,21 +35,3 @@ class BuildingCSVFilesForWeather:
                 weather_data.write_csv()
         except ValueError:
             print('ERROR retrieving or saving forecast weather data')
-
-    def generate_combined_weather_csv(self):
-        """
-        Combines the current weather and forecast weather data into a single CSV file.
-
-        Retrieves the weather forecast data for the next ten days and the current weather data for a given town.
-        Then, combines the data into a single DataFrame and saves it as a CSV file.
-        """
-        self.retrieve_and_save_forecast_weather()
-        self.retrieve_and_save_current_weather()
-
-        weather_data_forecast = pd.read_csv('forecast_weather_data.csv')
-
-        weather_data_current = pd.read_csv('weather_data.csv')
-
-        combined_data = pd.concat([weather_data_current, weather_data_forecast], axis=1)
-
-        combined_data.to_csv('combined_data_weather.csv', index=False)

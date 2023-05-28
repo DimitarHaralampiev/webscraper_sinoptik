@@ -43,13 +43,12 @@ class SinoptikScraper:
                     heading_name = div.find('span', class_='wfCurrentHeading').text.title()
                     if heading_name == 'Humidity:':
                         humidity = div.find('span', class_='wfCurrentValue').text.strip()
+                        humidity = humidity.replace('%', '')
 
-                current_day = str(datetime.now().today().day)
                 current_time = str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
                 return [{
-                    'Town': self.town.split('-')[0],
-                    'Day': current_day,
+                    'Town': town.split('-')[0],
                     'Current time': current_time,
                     'Current Temp.': current_weather_temp,
                     'Current weather feel': current_weather_feel,
@@ -93,11 +92,13 @@ class SinoptikScraper:
                         wind = day_info.find('span', class_='wf10dayRightWind').text.strip()
                         humidity = day_info.find('span', class_='wf10dayRighValue wf10dayRightRainValue').text.strip()
 
+                        humidity = humidity.replace('%', '')
+
                         formatting_forecast_date = str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
                         weather_data_forecast.append({
-                            'Town': self.town.split('-')[0],
-                            'Day': forecast_day,
+                            'Town': town.split('-')[0],
+                            'Forecast Day': forecast_day,
                             'Current time': formatting_forecast_date,
                             'Date': forecast_date,
                             'High temp': high_temp,
