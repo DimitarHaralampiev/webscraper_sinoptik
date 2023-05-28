@@ -11,11 +11,29 @@ class SinoptikScraper:
     """
 
     @staticmethod
-    def __get_sinoptik_base_url():
-        return f'https://weather.sinoptik.bg/'
+    def remove_units(value: str):
+        """
+        Remove units (such as degrees Celsius, percentage, and degrees) from the given value.
+
+        Args:
+            value (str): The value containing units.
+
+        Returns:
+            str: The value with units removed.
+        """
+        return value.replace('°C', '').replace('%', '').replace('°', '')
 
     @staticmethod
-    def scrape_current_weather(town: str):
+    def __get_sinoptik_base_url() -> str:
+        """
+        Get the base URL for scraping weather data from Sinoptik.
+
+        Returns:
+            str: The base URL for Sinoptik weather data.
+        """
+        return f'https://weather.sinoptik.bg/'
+
+    def scrape_current_weather(self, town: str):
         """
         Scrape the current weather data for a given town.
 
@@ -24,7 +42,7 @@ class SinoptikScraper:
         """
         try:
 
-            url = SinoptikScraper.__get_sinoptik_base_url() + town
+            url = self.__get_sinoptik_base_url() + town
 
             soup = BeautifulSoup(requests.get(url).content, 'html.parser')
 
@@ -34,7 +52,7 @@ class SinoptikScraper:
                 current_weather_feel = soup.find('span', class_='wfCurrentFeelTemp').text.strip()
                 current_weather_conditional = soup.find('strong').text.strip()
                 div_wind = soup.find('div', class_='wfCurrentWindWrapper')
-                wind = div_wind.find('span', class_='wfCurrentWind windImgNE')
+                wind = div_wind.find('span', class_='wfCurrentWind windImgNE').text.strip()
                 div_humidity = soup.find_all('div', class_='wfCurrentWrapper')
 
                 humidity = ''
@@ -43,26 +61,24 @@ class SinoptikScraper:
                     heading_name = div.find('span', class_='wfCurrentHeading').text.title()
                     if heading_name == 'Humidity:':
                         humidity = div.find('span', class_='wfCurrentValue').text.strip()
-                        humidity = humidity.replace('%', '')
 
                 current_time = str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
                 return [{
                     'Town': town.split('-')[0],
                     'Current time': current_time,
-                    'Current Temp.': current_weather_temp,
-                    'Current weather feel': current_weather_feel,
+                    'Current Temp.': self.remove_units(current_weather_temp),
+                    'Current weather feel': self.remove_units(current_weather_feel.split(':')[1]),
                     'Condition': current_weather_conditional,
                     'Wind': wind,
-                    'Humidity': humidity
+                    'Humidity': self.remove_units(humidity)
                 }]
             except ValueError:
                 print('Error retrieving current weather data')
         except ValueError:
             print('ERROR retrieving current weather URL')
 
-    @staticmethod
-    def scrape_weather_ten_days(town: str, period: str):
+    def scrape_weather_ten_days(self, town: str, period: str):
         """
         Scrape the weather data for the next ten days for a given town.
 
@@ -73,7 +89,7 @@ class SinoptikScraper:
 
         try:
 
-            url = SinoptikScraper.__get_sinoptik_base_url() + town + '/' + period
+            url = self.__get_sinoptik_base_url() + town + '/' + period
 
             soup_ten_days = BeautifulSoup(requests.get(url).content, 'html.parser')
 
@@ -101,10 +117,10 @@ class SinoptikScraper:
                             'Forecast Day': forecast_day,
                             'Current time': formatting_forecast_date,
                             'Date': forecast_date,
-                            'High temp': high_temp,
-                            'Low temp': low_temp,
+                            'High temp': self.remove_units(high_temp),
+                            'Low temp': self.remove_units(low_temp),
                             'Wind': wind,
-                            'Humidity': humidity,
+                            'Humidity': self.remove_units(humidity),
                         })
                     except ValueError:
                         print('ERROR retrieving forecast weather data')
