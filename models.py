@@ -57,9 +57,3 @@ class SQLHelper:
         )
         session.add(current_weather)
         session.commit()
-
-    def close(self):
-        """
-        Close database session
-        """
-        self.session.close()
