@@ -1,25 +1,15 @@
 from datetime import datetime
 
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Float, create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, sessionmaker
+from sqlalchemy.orm import relationship, sessionmaker, declarative_base
 
 Base = declarative_base()
-
-
-class Town(Base):
-    __tablename__ = 'towns'
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-
-    current_weather = relationship('CurrentWeather', back_populates='town')
-    forecast_weather = relationship('ForecastWeather', back_populates='town')
 
 
 class CurrentWeather(Base):
     __tablename__ = 'current_weather'
     id = Column(Integer, primary_key=True)
-    town_id = Column(Integer, ForeignKey('town.id'))
+    town_name = Column(String)
     current_time = Column(DateTime, default=datetime.now())
     current_temperature = Column(Float)
     weather_condition = Column(Float)
@@ -32,7 +22,7 @@ class CurrentWeather(Base):
 class ForecastWeather(Base):
     __tablename__ = 'forecast_weather'
     id = Column(Integer, primary_key=True)
-    town_id = Column(Integer, ForeignKey('town.id'))
+    town_name = Column(String)
     current_time = Column(DateTime, default=datetime.now())
     forecast_date = Column(DateTime)
     high_temperature = Column(Float)
@@ -47,8 +37,8 @@ class SQLHelper:
     """
     A helper class for SQLite operations.
     """
-    def __init__(self):
-        self.engine = create_engine('sqlite:///weather_data.db')
+    def __init__(self, database_name):
+        self.engine = create_engine(f'sqlite:///{database_name}')
         Base.metadata.bind = self.engine
         Base.metadata.create_all(self.engine)
         Session = sessionmaker(bind=self.engine)
