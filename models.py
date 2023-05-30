@@ -1,8 +1,8 @@
 from datetime import datetime
 
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Float
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Float, create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, sessionmaker
 
 Base = declarative_base()
 
@@ -11,6 +11,9 @@ class Town(Base):
     __tablename__ = 'towns'
     id = Column(Integer, primary_key=True)
     name = Column(String)
+
+    current_weather = relationship('CurrentWeather', back_populates='town')
+    forecast_weather = relationship('ForecastWeather', back_populates='town')
 
 
 class CurrentWeather(Base):
@@ -38,3 +41,21 @@ class ForecastWeather(Base):
     humidity = Column(Integer)
 
     town = relationship('Town', back_populates='forecast_weather')
+
+
+class SQLHelper:
+    """
+    A helper class for SQLite operations.
+    """
+    def __init__(self):
+        self.engine = create_engine('sqlite:///weather_data.db')
+        Base.metadata.bind = self.engine
+        Base.metadata.create_all(self.engine)
+        Session = sessionmaker(bind=self.engine)
+        self.session = Session()
+
+    def close(self):
+        """
+        Close database session
+        """
+        self.session.close()
