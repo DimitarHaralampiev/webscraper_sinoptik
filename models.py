@@ -1,4 +1,5 @@
 from datetime import datetime
+import pandas as pd
 
 from sqlalchemy import Column, Integer, String, DateTime, Float, create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
@@ -46,14 +47,20 @@ class SQLHelper:
             data (dict): A dictionary containing current weather data.
         """
         session = self.Session()
-        current_weather = CurrentWeather(
-            town_name=data['Town'],
-            current_time=data['Current time'],
-            current_temp=data['Current Temp.'],
-            weather_feel=data['Current weather feel'],
-            condition=data['Condition'],
-            wind=data['Wind'],
-            humidity=data['Humidity']
-        )
+        current_weather = CurrentWeather(**data)
         session.add(current_weather)
         session.commit()
+
+    def add_forecast_weather_data(self, data):
+        """
+        Adds forecast weather data to the SQLite database.
+
+        Args:
+        data (dict): A dictionary containing forecast weather data.
+        """
+        session = self.Session()
+        forecast_weather = ForecastWeather(**data)
+        session.add(forecast_weather)
+        session.commit()
+
+

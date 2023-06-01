@@ -1,4 +1,5 @@
 from csv_helper import CSVHelper
+from models import SQLHelper
 from scraper_sinoptik import SinoptikScraper
 
 
@@ -39,4 +40,6 @@ if __name__ == '__main__':
     retrieve_and_save_current_weather(town)
     retrieve_and_save_forecast_weather(town, period)
 
+    db_helper = SQLHelper('weather.db')
+    db_helper.create_tables_from_csv('current_weather.csv', 'forecast_weather_data.csv')
 
