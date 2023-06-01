@@ -39,28 +39,6 @@ class SQLHelper:
         Base.metadata.create_all(self.engine)
         self.Session = sessionmaker(bind=self.engine)
 
-    def add_current_weather_data(self, data):
-        """
-        Adds current weather data to the SQLite database.
 
-        Args:
-            data (dict): A dictionary containing current weather data.
-        """
-        session = self.Session()
-        current_weather = CurrentWeather(**data)
-        session.add(current_weather)
-        session.commit()
-
-    def add_forecast_weather_data(self, data):
-        """
-        Adds forecast weather data to the SQLite database.
-
-        Args:
-        data (dict): A dictionary containing forecast weather data.
-        """
-        session = self.Session()
-        forecast_weather = ForecastWeather(**data)
-        session.add(forecast_weather)
-        session.commit()
 
 
