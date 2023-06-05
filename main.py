@@ -31,9 +31,10 @@ def retrieve_and_save_forecast_weather(town, period):
         print('ERROR retrieving or saving forecast weather data')
 
 
+town = input('Please enter Town: ')
+period = input('Please enter Period: ')
+
 if __name__ == '__main__':
-    town = input('Please enter Town: ')
-    period = input('Please enter Period: ')
 
     retrieve_and_save_current_weather(town)
     retrieve_and_save_forecast_weather(town, period)
@@ -44,8 +45,10 @@ if __name__ == '__main__':
     helper.create_tables()
 
     weather_csv_file = 'weather_data.csv'
+    forecast_weather_csv_file = 'forecast_weather_data.csv'
 
     helper.import_weather_data_from_csv(weather_csv_file)
+    helper.import_forecast_weather_from_csv(forecast_weather_csv_file)
 
 
 
