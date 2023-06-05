@@ -25,10 +25,10 @@ class ForecastWeather(Base):
     town_name = Column(String)
     current_time = Column(DateTime, default=datetime.now())
     forecast_date = Column(DateTime)
-    high_temperature = Column(Float)
-    low_temperature = Column(Float)
+    high_temperature = Column(String)
+    low_temperature = Column(String)
     wind = Column(String)
-    humidity = Column(Integer)
+    humidity = Column(String)
 
 
 class SQLHelper:
@@ -39,6 +39,8 @@ class SQLHelper:
     def __init__(self, database_name: str):
         self.database_name = database_name
 
-
+    def create_tables(self):
+        engine = create_engine(f'sqlite:///{self.database_name}')
+        Base.metadata.create_all(engine)
 
 
