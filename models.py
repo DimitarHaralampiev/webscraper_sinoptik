@@ -1,6 +1,5 @@
 import csv
 from datetime import datetime
-import pandas as pd
 
 from sqlalchemy import Column, Integer, String, DateTime, Float, create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
@@ -25,10 +24,10 @@ class ForecastWeather(Base):
     town_name = Column(String)
     current_time = Column(DateTime, default=datetime.now())
     forecast_date = Column(DateTime)
-    high_temperature = Column(String)
-    low_temperature = Column(String)
+    high_temperature = Column(Float)
+    low_temperature = Column(Float)
     wind = Column(String)
-    humidity = Column(String)
+    humidity = Column(Integer)
 
 
 class SQLHelper:
@@ -56,3 +55,38 @@ class SQLHelper:
         Session = sessionmaker(bind=engine)
         session = Session()
         return session
+
+    def import_weather_data_from_csv(self, csv_file: str):
+        """
+        Import weather data from a CSV file and store it in the database.
+
+        Args:
+            csv_file (str): Path to the CSV file containing weather data.
+        """
+        engine = create_engine(f'sqlite:///{self.database_name}')
+        session = self.create_session(engine)
+
+        try:
+            with open(csv_file, 'r') as file:
+                reader = csv.DictReader(file)
+                for row in reader:
+                    try:
+                        current_time = datetime.strptime(row['Current time'], '%Y-%m-%d %H:%M:%S')
+
+                        weather = CurrentWeather(
+                            town_name=row['Town'],
+                            current_time=current_time,
+                            current_temperature=float(row['Current Temp.']),
+                            weather_condition=row['Condition'],
+                            wind=row['Wind'],
+                            humidity=int(row['Humidity'])
+                        )
+                        session.add(weather)
+                    except ValueError:
+                        print('Error importing data')
+
+            session.commit()
+        except FileNotFoundError:
+            print(f'CSV file {csv_file} does not exist')
+        finally:
+            session.close()
