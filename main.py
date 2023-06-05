@@ -1,11 +1,6 @@
-import sqlite3
-
-from sqlalchemy import create_engine
-
 from csv_helper import CSVHelper
 from models import SQLHelper
 from scraper_sinoptik import SinoptikScraper
-import pandas as pd
 
 
 def retrieve_and_save_current_weather(town):
@@ -37,12 +32,14 @@ def retrieve_and_save_forecast_weather(town, period):
 
 
 if __name__ == '__main__':
-    # sqlite_helper = SQLHelper('weather_data.db')
     town = input('Please enter Town: ')
     period = input('Please enter Period: ')
 
     retrieve_and_save_current_weather(town)
     retrieve_and_save_forecast_weather(town, period)
+
+
+
 
 
 

@@ -1,3 +1,4 @@
+import csv
 from datetime import datetime
 import pandas as pd
 
@@ -12,10 +13,10 @@ class CurrentWeather(Base):
     id = Column(Integer, primary_key=True)
     town_name = Column(String)
     current_time = Column(DateTime, default=datetime.now())
-    current_temperature = Column(Float)
-    weather_condition = Column(Float)
+    current_temperature = Column(String)
+    weather_condition = Column(String)
     wind = Column(String)
-    humidity = Column(Integer)
+    humidity = Column(String)
 
 
 class ForecastWeather(Base):
@@ -34,10 +35,9 @@ class SQLHelper:
     """
     A helper class for SQLite operations.
     """
+
     def __init__(self, database_name: str):
-        self.engine = create_engine(f'sqlite:///{database_name}')
-        Base.metadata.create_all(self.engine)
-        self.Session = sessionmaker(bind=self.engine)
+        self.database_name = database_name
 
 
 
