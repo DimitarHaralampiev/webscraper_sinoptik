@@ -6,18 +6,7 @@ from sqlalchemy.orm import declarative_base
 Base = declarative_base()
 
 
-class CurrentWeather(Base):
-    __tablename__ = 'current_weather'
-    id = Column(Integer, primary_key=True)
-    town_name = Column(String)
-    current_time = Column(DateTime, default=datetime.now())
-    current_temperature = Column(Float)
-    weather_condition = Column(String)
-    wind = Column(String)
-    humidity = Column(Integer)
-
-
-class ForecastWeather(Base):
+class forecast_weather(Base):
     __tablename__ = 'forecast_weather'
     id = Column(Integer, primary_key=True)
     town_name = Column(String)
@@ -28,6 +17,3 @@ class ForecastWeather(Base):
     low_temperature = Column(Float)
     wind = Column(String)
     humidity = Column(Integer)
-
-
-

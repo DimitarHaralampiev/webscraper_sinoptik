@@ -3,7 +3,8 @@ from datetime import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from models.models import ForecastWeather, CurrentWeather, Base
+from models.current_weather import Base, current_weather
+from models.forecast_weather import forecast_weather
 
 
 class SQLHelper:
@@ -50,7 +51,7 @@ class SQLHelper:
                         formatted_current_time = datetime.now().strptime(row['Current time'],
                                                                          '%Y-%m-%d %H:%M:%S')
 
-                        weather = CurrentWeather(
+                        weather = current_weather(
                             town_name=row['Town'],
                             current_time=formatted_current_time,
                             current_temperature=float(row['Current Temp.']),
@@ -86,7 +87,7 @@ class SQLHelper:
                         formatted_forecast_current_time = datetime.now().strptime(row['Current time'],
                                                                                   '%Y-%m-%d %H:%M:%S')
 
-                        forecast = ForecastWeather(
+                        forecast = forecast_weather(
                             town_name=row['Town'],
                             forecast_day=row['Forecast Day'],
                             current_time=formatted_forecast_current_time,
