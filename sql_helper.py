@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from models import ForecastWeather, CurrentWeather, Base
+from models.models import ForecastWeather, CurrentWeather, Base
 
 
 class SQLHelper:
