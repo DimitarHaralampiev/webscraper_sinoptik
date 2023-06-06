@@ -11,19 +11,6 @@ class SinoptikScraper:
     """
 
     @staticmethod
-    def remove_units(value: str):
-        """
-        Remove units (such as degrees Celsius, percentage, and degrees) from the given value.
-
-        Args:
-            value (str): The value containing units.
-
-        Returns:
-            str: The value with units removed.
-        """
-        return value.replace('°C', '').replace('%', '').replace('°', '')
-
-    @staticmethod
     def __get_sinoptik_base_url() -> str:
         """
         Get the base URL for scraping weather data from Sinoptik.
@@ -67,11 +54,11 @@ class SinoptikScraper:
                 return [{
                     'Town': town.split('-')[0],
                     'Current time': current_time,
-                    'Current Temp.': self.remove_units(current_weather_temp),
-                    'Current weather feel': self.remove_units(current_weather_feel.split(':')[1]),
+                    'Current Temp.': current_weather_temp.replace('°C', ''),
+                    'Current weather feel': current_weather_feel.split(':')[1].replace('°', ''),
                     'Condition': current_weather_conditional,
                     'Wind': wind,
-                    'Humidity': self.remove_units(humidity)
+                    'Humidity': humidity.replace('%', '')
                 }]
             except ValueError:
                 print('Error retrieving current weather data')
@@ -108,8 +95,6 @@ class SinoptikScraper:
                         wind = day_info.find('span', class_='wf10dayRightWind').text.strip()
                         humidity = day_info.find('span', class_='wf10dayRighValue wf10dayRightRainValue').text.strip()
 
-                        humidity = humidity.replace('%', '')
-
                         formatting_forecast_date = str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
                         weather_data_forecast.append({
@@ -117,10 +102,10 @@ class SinoptikScraper:
                             'Forecast Day': forecast_day,
                             'Current time': formatting_forecast_date,
                             'Date': forecast_date,
-                            'High temp': self.remove_units(high_temp),
-                            'Low temp': self.remove_units(low_temp),
+                            'High temp': high_temp.replace('°', ''),
+                            'Low temp': low_temp.replace('°', ''),
                             'Wind': wind,
-                            'Humidity': self.remove_units(humidity),
+                            'Humidity': humidity.replace('%', ''),
                         })
                     except ValueError:
                         print('ERROR retrieving forecast weather data')

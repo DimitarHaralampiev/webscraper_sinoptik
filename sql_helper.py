@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from models.current_weather import Base, current_weather
-from models.forecast_weather import forecast_weather
+from models.forecast_weather import Base, forecast_weather
 
 
 class SQLHelper:
