@@ -47,8 +47,6 @@ if __name__ == '__main__':
     weather_csv_file = 'weather_data.csv'
     forecast_weather_csv_file = 'forecast_weather_data.csv'
 
-    helper.import_weather_data_from_csv(weather_csv_file)
-    helper.import_forecast_weather_from_csv(forecast_weather_csv_file)
 
 
 

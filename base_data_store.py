@@ -7,21 +7,21 @@ class BaseDataStore(ABC):
     """
 
     @abstractmethod
-    def write(self):
+    def write(self, data):
         """
-        Write data to the storage.
+        Write the data to the data store.
+
+        Args:
+            data: The data to be written.
         """
         pass
 
     @abstractmethod
     def get(self):
         """
-        Retrieve data from the storage.
-        """
-        pass
+        Retrieve the data from the data store.
 
-    def put(self, data):
-        """
-        Store data in memory.
+        Returns:
+            The retrieved data.
         """
         pass
