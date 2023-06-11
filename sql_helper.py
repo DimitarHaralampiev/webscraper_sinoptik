@@ -125,7 +125,5 @@ class SQLiteDataStore(BaseDataStore):
             }
         except ValueError as v:
             print(f'Error retrieving data from the database: {str(v)}')
-        finally:
-            session.close()
 
 
