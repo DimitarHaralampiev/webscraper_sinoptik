@@ -1,6 +1,6 @@
 from csv_helper import CSVHelper
 from scraper_sinoptik import SinoptikScraper
-from sql_helper import SQLHelper
+from sql_helper import SQLiteDataStore
 
 
 def retrieve_and_save_current_weather(town):

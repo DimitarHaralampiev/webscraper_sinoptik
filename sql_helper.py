@@ -8,7 +8,7 @@ from models.current_weather import Base, current_weather
 from models.forecast_weather import Base, forecast_weather
 
 
-class SQLHelper(BaseDataStore):
+class SQLiteDataStore(BaseDataStore):
     """
     A helper class for SQLite operations.
     """
