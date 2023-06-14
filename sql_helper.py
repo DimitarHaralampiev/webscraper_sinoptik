@@ -96,28 +96,34 @@ class SQLiteDataStore(BaseDataStore):
             forecast_weather_data = session.query(forecast_weather).all()
 
             current_data = []
-            for weather in current_weather_data:
-                current_data.append({
-                    'Town': weather.town_name,
-                    'Current time': weather.current_time,
-                    'Current Temp.': weather.current_temperature,
-                    'Condition': weather.weather_condition,
-                    'Wind': weather.wind,
-                    'Humidity': weather.humidity
-                })
+            try:
+                for weather in current_weather_data:
+                    current_data.append({
+                        'Town': weather.town_name,
+                        'Current time': weather.current_time,
+                        'Current Temp.': weather.current_temperature,
+                        'Condition': weather.weather_condition,
+                        'Wind': weather.wind,
+                        'Humidity': weather.humidity
+                    })
+            except ValueError as v:
+                print(f'Error data for current weather: {str(v)}')
 
             forecast_data = []
-            for weather in forecast_weather_data:
-                forecast_data.append({
-                    'Town': weather.town_name,
-                    'Forecast Day': weather.forecast_day,
-                    'Current time': weather.current_time,
-                    'Date': weather.forecast_date,
-                    'High Temp.': weather.high_temperature,
-                    'Low Temp.': weather.low_temperature,
-                    'Wind': weather.wind,
-                    'Humidity': weather.humidity
-                })
+            try:
+                for weather in forecast_weather_data:
+                    forecast_data.append({
+                        'Town': weather.town_name,
+                        'Forecast Day': weather.forecast_day,
+                        'Current time': weather.current_time,
+                        'Date': weather.forecast_date,
+                        'High Temp.': weather.high_temperature,
+                        'Low Temp.': weather.low_temperature,
+                        'Wind': weather.wind,
+                        'Humidity': weather.humidity
+                    })
+            except ValueError as v:
+                print(f'Error data for forecast weather: {str(v)}')
 
             return {
                 'current_weather': current_data,

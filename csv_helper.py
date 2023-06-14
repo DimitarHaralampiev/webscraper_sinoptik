@@ -19,4 +19,19 @@ class CSVDataStore(BaseDataStore):
         df.to_csv(self.filename, index=False)
 
     def get(self):
-        pass
+        """
+        Retrieve the data from the CSV file.
+
+        Returns:
+                The retrieved data.
+        """
+        try:
+            df = pd.read_csv(self.filename)
+            if 'Forecast Day' in df.columns:
+                # Forecast weather data
+                return df.to_dict('records')
+            else:
+                # Current weather data
+                return df.iloc[0].to_dict()
+        except Exception as e:
+            print(f'Error retrieving data from CSV: {str(e)}')
