@@ -1,6 +1,6 @@
-from csv_helper import CSVDataStore
+from csv_data_store import CSVDataStore
 from scraper_sinoptik import SinoptikScraper
-from sql_helper import SQLiteDataStore
+from sql_data_store import SQLiteDataStore
 
 
 scraper = SinoptikScraper()
