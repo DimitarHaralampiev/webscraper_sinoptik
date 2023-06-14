@@ -1,7 +1,7 @@
 import pandas as pd
 
 
-class CSVHelper:
+class CSVDataStore:
     """
     A helper class for writing data to CSV files.
     """

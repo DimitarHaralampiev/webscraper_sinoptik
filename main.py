@@ -1,4 +1,4 @@
-from csv_helper import CSVHelper
+from csv_helper import CSVDataStore
 from scraper_sinoptik import SinoptikScraper
 from sql_helper import SQLiteDataStore
 
@@ -16,7 +16,7 @@ def retrieve_and_save_current_weather(town):
     try:
         entry = scraper.scrape_current_weather(town)
         if entry:
-            weather_data = CSVHelper(entry, 'weather_data.csv')
+            weather_data = CSVDataStore(entry, 'weather_data.csv')
             weather_data.write_csv()
     except ValueError:
         print('ERROR retrieving or saving current weather data')
@@ -29,7 +29,7 @@ def retrieve_and_save_forecast_weather(town, period):
     try:
         forecast_weather = scraper.scrape_weather_ten_days(town, period)
         if forecast_weather:
-            weather_data = CSVHelper(forecast_weather, 'forecast_weather_data.csv')
+            weather_data = CSVDataStore(forecast_weather, 'forecast_weather_data.csv')
             weather_data.write_csv()
     except ValueError:
         print('ERROR retrieving or saving forecast weather data')
