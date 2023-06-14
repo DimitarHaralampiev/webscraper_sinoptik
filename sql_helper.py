@@ -1,4 +1,3 @@
-import csv
 from datetime import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -45,35 +44,36 @@ class SQLiteDataStore(BaseDataStore):
         session = self.__create_session(engine)
 
         try:
-            if isinstance(data, dict):
-                formatted_current_time = datetime.now().strptime('Current time',
-                                                                 '%Y-%m-%d %H:%M:%S')
+            formatted_current_time = datetime.now().strptime(data['Current time'], '%Y-%m-%d %H:%M:%S')
 
-                current_weather_data = current_weather(
-                    town_name=data['Town'],
-                    current_time=formatted_current_time,
-                    current_temperature=data['Current Temp.'],
-                    weather_condition=data['Condition'],
-                    wind=data['Wind'],
-                    humidity=['Humidity']
-                )
-                session.add(current_weather_data)
-            elif isinstance(data, list):
-                for item in data:
-                    formatted_current_time = datetime.now().strptime('Current time',
-                                                                     '%Y-%m-%d %H:%M:%S')
-
-                    forecast_weather_data = forecast_weather(
-                        townn_name=item['Town'],
-                        forecast_day=item['Forecast Day'],
+            if isinstance(data, dict) and len(data) == 6:
+                try:
+                    current_weather_data = current_weather(
+                        town_name=data['Town'],
                         current_time=formatted_current_time,
-                        forecast_data=item['Date'],
-                        high_temperature=item['High temp'],
-                        low_temperature=item['Low temp'],
-                        wind=item['Wind'],
-                        humidity=item['Humidity']
-                    )
+                        current_temperature=data['Current Temp.'],
+                        weather_condition=data['Condition'],
+                        wind=data['Wind'],
+                        humidity=data['Humidity']
+                        )
+                    session.add(current_weather_data)
+                except ValueError as v:
+                    print(f'Error data for current weather: {str(v)}')
+            else:
+                try:
+                    forecast_weather_data = forecast_weather(
+                        town_name=data['Town'],
+                        forecast_day=data['Forecast Day'],
+                        current_time=formatted_current_time,
+                        forecast_date=data['Date'],
+                        high_temperature=data['High temp'],
+                        low_temperature=data['Low temp'],
+                        wind=data['Wind'],
+                        humidity=data['Humidity'],
+                        )
                     session.add(forecast_weather_data)
+                except ValueError as v:
+                    print(f'Error data for current weather: {str(v)}')
 
             session.commit()
         except ValueError as v:
@@ -125,5 +125,3 @@ class SQLiteDataStore(BaseDataStore):
             }
         except ValueError as v:
             print(f'Error retrieving data from the database: {str(v)}')
-
-

@@ -1,3 +1,5 @@
+import csv
+
 from csv_helper import CSVHelper
 from scraper_sinoptik import SinoptikScraper
 from sql_helper import SQLiteDataStore
@@ -36,19 +38,13 @@ period = input('Please enter Period: ')
 
 if __name__ == '__main__':
 
-    retrieve_and_save_current_weather(town)
-    retrieve_and_save_forecast_weather(town, period)
+    # retrieve_and_save_current_weather(town)
+    # retrieve_and_save_forecast_weather(town, period)
 
     database_file = 'weather_data.db'
-    helper = SQLHelper(database_file)
+    helper = SQLiteDataStore(database_file)
 
     helper.create_tables()
-
-    weather_csv_file = 'weather_data.csv'
-    forecast_weather_csv_file = 'forecast_weather_data.csv'
-
-
-
 
 
 

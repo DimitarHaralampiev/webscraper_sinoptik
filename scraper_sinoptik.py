@@ -55,7 +55,6 @@ class SinoptikScraper:
                     'Town': town.split('-')[0],
                     'Current time': current_time,
                     'Current Temp.': current_weather_temp.replace('°C', ''),
-                    'Current weather feel': current_weather_feel.split(':')[1].replace('°', ''),
                     'Condition': current_weather_conditional,
                     'Wind': wind,
                     'Humidity': humidity.replace('%', '')
