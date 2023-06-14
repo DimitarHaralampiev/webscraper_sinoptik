@@ -9,33 +9,33 @@ database_file = 'weather_data.db'
 helper = SQLiteDataStore(database_file)
 
 
-def retrieve_and_save_current_weather(town):
+def retrieve_and_save_current_weather(town: str):
     """
     Retrieves and saves the current weather data for a given town.
     """
     try:
         entry = scraper.scrape_current_weather(town)
         if entry:
-            weather_data = CSVDataStore(entry, 'weather_data.csv')
-            weather_data.write_csv()
+            weather_data = CSVDataStore('weather_data.csv')
+            weather_data.write(entry)
     except ValueError:
         print('ERROR retrieving or saving current weather data')
 
 
-def retrieve_and_save_forecast_weather(town, period):
+def retrieve_and_save_forecast_weather(town: str, period: str):
     """
     Retrieves and saves the weather forecast data for the next ten days for a given town.
     """
     try:
         forecast_weather = scraper.scrape_weather_ten_days(town, period)
         if forecast_weather:
-            weather_data = CSVDataStore(forecast_weather, 'forecast_weather_data.csv')
-            weather_data.write_csv()
+            weather_data = CSVDataStore('forecast_weather_data.csv')
+            weather_data.write(forecast_weather)
     except ValueError:
         print('ERROR retrieving or saving forecast weather data')
 
 
-def retrieve_and_save_to_database_current_weather(town):
+def retrieve_and_save_to_database_current_weather(town: str):
     """
     Retrieve the current weather data for a given town and save it to the database.
 
@@ -50,7 +50,7 @@ def retrieve_and_save_to_database_current_weather(town):
         print(f'Error retrieving or saving current weather data: {str(v)}')
 
 
-def retrieve_and_save_to_database_forecast_weather(town, period):
+def retrieve_and_save_to_database_forecast_weather(town: str, period: str):
     """
     Retrieve the current weather data for a given town and save it to the database.
 

@@ -1,18 +1,22 @@
 import pandas as pd
 
+from base_data_store import BaseDataStore
 
-class CSVDataStore:
+
+class CSVDataStore(BaseDataStore):
     """
     A helper class for writing data to CSV files.
     """
 
-    def __init__(self, data, filename):
-        self.data = data
+    def __init__(self, filename):
         self.filename = filename
 
-    def write_csv(self):
+    def write(self, data):
         """
         Writes the data to a CSV file.
         """
-        df = pd.DataFrame(self.data)
+        df = pd.DataFrame(data)
         df.to_csv(self.filename, index=False)
+
+    def get(self):
+        pass
