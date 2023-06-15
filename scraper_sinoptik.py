@@ -9,7 +9,9 @@ class SinoptikScraper:
     """
         A class for scraping weather data from sinoptik.bg.
     """
-
+    def __init__(self, base_url, database_name):
+        self.base_url = base_url
+        self.database_name = database_name
     @staticmethod
     def __get_sinoptik_base_url() -> str:
         """
@@ -29,7 +31,7 @@ class SinoptikScraper:
         """
         try:
 
-            url = self.__get_sinoptik_base_url() + town
+            url = self.base_url + town
 
             soup = BeautifulSoup(requests.get(url).content, 'html.parser')
 
@@ -75,7 +77,7 @@ class SinoptikScraper:
 
         try:
 
-            url = self.__get_sinoptik_base_url() + town + '/' + period
+            url = self.base_url + town + '/' + period
 
             soup_ten_days = BeautifulSoup(requests.get(url).content, 'html.parser')
 
