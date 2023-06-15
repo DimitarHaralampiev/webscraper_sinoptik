@@ -1,12 +1,12 @@
+from config import database_name, base_url, town_name, period_weather
 from csv_data_store import CSVDataStore
 from scraper_sinoptik import SinoptikScraper
 from sql_data_store import SQLiteDataStore
 
 
-scraper = SinoptikScraper()
+scraper = SinoptikScraper(base_url)
 
-database_file = 'weather_data.db'
-helper = SQLiteDataStore(database_file)
+helper = SQLiteDataStore(database_name)
 
 
 def retrieve_and_save_current_weather(town: str):
@@ -65,18 +65,15 @@ def retrieve_and_save_to_database_forecast_weather(town: str, period: str):
         print(f'Error retrieving or saving forecast weather data: {str(v)}')
 
 
-town = input('Please enter Town: ')
-period = input('Please enter Period: ')
-
 if __name__ == '__main__':
 
-    retrieve_and_save_current_weather(town)
-    retrieve_and_save_forecast_weather(town, period)
+    retrieve_and_save_current_weather(town_name)
+    retrieve_and_save_forecast_weather(town_name, period_weather)
 
     helper.create_tables()
 
-    retrieve_and_save_to_database_current_weather(town)
-    retrieve_and_save_to_database_forecast_weather(town, period)
+    retrieve_and_save_to_database_current_weather(town_name)
+    retrieve_and_save_to_database_forecast_weather(town_name, period_weather)
 
 
 
