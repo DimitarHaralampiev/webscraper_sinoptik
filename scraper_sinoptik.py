@@ -12,15 +12,6 @@ class SinoptikScraper:
     def __init__(self, base_url, database_name):
         self.base_url = base_url
         self.database_name = database_name
-    @staticmethod
-    def __get_sinoptik_base_url() -> str:
-        """
-        Get the base URL for scraping weather data from Sinoptik.
-
-        Returns:
-            str: The base URL for Sinoptik weather data.
-        """
-        return f'https://weather.sinoptik.bg/'
 
     def scrape_current_weather(self, town: str):
         """
