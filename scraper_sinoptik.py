@@ -9,9 +9,8 @@ class SinoptikScraper:
     """
         A class for scraping weather data from sinoptik.bg.
     """
-    def __init__(self, base_url, database_name):
+    def __init__(self, base_url):
         self.base_url = base_url
-        self.database_name = database_name
 
     def scrape_current_weather(self, town: str):
         """
