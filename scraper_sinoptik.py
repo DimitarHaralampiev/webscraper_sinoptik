@@ -31,7 +31,7 @@ class SinoptikScraper:
                 current_weather_feel = soup.find('span', class_='wfCurrentFeelTemp').text.strip()
                 current_weather_conditional = soup.find('strong').text.strip()
                 div_wind = soup.find('div', class_='wfCurrentWindWrapper')
-                wind = div_wind.find('span', class_='wfCurrentWind windImgNE')
+                wind = div_wind.find('span', class_='wfCurrentWind windImgNE').text.strip()
                 div_humidity = soup.find_all('div', class_='wfCurrentWrapper')
 
                 humidity = ''
