@@ -51,10 +51,10 @@ class SinoptikScraper:
                     'Wind': wind,
                     'Humidity': humidity.replace('%', '')
                 }]
-            except ValueError:
-                print('Error retrieving current weather data')
-        except ValueError:
-            print('ERROR retrieving current weather URL')
+            except ValueError as v:
+                print(f'Error retrieving current weather data {str(v)}')
+        except ValueError as v:
+            print(f'ERROR retrieving current weather URL {str(v)}')
 
     def scrape_weather_ten_days(self, town: str, period: str):
         """
@@ -98,10 +98,10 @@ class SinoptikScraper:
                             'Wind': wind,
                             'Humidity': humidity.replace('%', ''),
                         })
-                    except ValueError:
-                        print('ERROR retrieving forecast weather data')
-        except ValueError:
-            print('ERROR retrieving forecast weather URL')
+                    except ValueError as v:
+                        print(f'ERROR retrieving forecast weather data {str(v)}')
+        except ValueError as v:
+            print(f'ERROR retrieving forecast weather URL {str(v)}')
 
         return weather_data_forecast
 
