@@ -31,7 +31,8 @@ class SQLiteDataStore(BaseDataStore):
 
     def create_tables(self):
         engine = create_engine(f'sqlite:///{self.database_name}')
-        Base.metadata.create_all(engine)
+        current_weather.metadata.create_all(engine)
+        forecast_weather.metadata.create_all(engine)
 
     def write(self, data):
         """
