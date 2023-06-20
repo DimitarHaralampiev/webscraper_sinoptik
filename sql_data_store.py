@@ -3,8 +3,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from base_data_store import BaseDataStore
-from models.current_weather import Base, current_weather
-from models.forecast_weather import Base, forecast_weather
+from models.current_weather import current_weather
+from models.forecast_weather import forecast_weather
 
 
 class SQLiteDataStore(BaseDataStore):
