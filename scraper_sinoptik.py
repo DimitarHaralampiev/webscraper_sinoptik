@@ -1,3 +1,4 @@
+import re
 from datetime import datetime
 
 import requests
@@ -31,7 +32,7 @@ class SinoptikScraper:
                 current_weather_feel = soup.find('span', class_='wfCurrentFeelTemp').text.strip()
                 current_weather_conditional = soup.find('strong').text.strip()
                 div_wind = soup.find('div', class_='wfCurrentWindWrapper')
-                wind = div_wind.find('span', class_='wfCurrentWind windImgNE')
+                wind = div_wind.find('span', class_='wfCurrentWind windImgNW')
                 div_humidity = soup.find_all('div', class_='wfCurrentWrapper')
 
                 humidity = ''
@@ -43,14 +44,14 @@ class SinoptikScraper:
 
                 current_time = str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
-                return [{
+                return {
                     'Town': town.split('-')[0],
                     'Current time': current_time,
                     'Current Temp.': current_weather_temp.replace('°C', ''),
                     'Condition': current_weather_conditional,
                     'Wind': wind,
                     'Humidity': humidity.replace('%', '')
-                }]
+                }
             except ValueError as v:
                 print(f'Error retrieving current weather data {str(v)}')
         except ValueError as v:
@@ -85,6 +86,12 @@ class SinoptikScraper:
                         low_temp = day_info.find('span', class_='wf10dayRightTempLow').text.strip()
                         wind = day_info.find('span', class_='wf10dayRightWind').text.strip()
                         humidity = day_info.find('span', class_='wf10dayRighValue wf10dayRightRainValue').text.strip()
+
+                        pattern = r'(\d+) m/s'
+
+                        match = re.search(pattern, wind)
+                        if match:
+                            wind = match.group(1)
 
                         formatting_forecast_date = str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 

@@ -17,7 +17,7 @@ def retrieve_and_save_current_weather(town: str):
         entry = scraper.scrape_current_weather(town)
         if entry:
             weather_data = CSVDataStore(weather_data_csv)
-            weather_data.write(entry)
+            weather_data.write([entry])
     except ValueError:
         print('ERROR retrieving or saving current weather data')
 
@@ -44,8 +44,8 @@ def retrieve_and_save_to_database_current_weather(town: str):
     """
     try:
         current_weather_data = scraper.scrape_current_weather(town)
-        for data in current_weather_data:
-            helper.write(data)
+        # for data in current_weather_data:
+        helper.write(current_weather_data)
     except ValueError as v:
         print(f'Error retrieving or saving current weather data: {str(v)}')
 
