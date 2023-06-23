@@ -35,36 +35,6 @@ def retrieve_and_save_forecast_weather(town: str, period: str):
         print('ERROR retrieving or saving forecast weather data')
 
 
-def retrieve_and_save_to_database_current_weather(town: str):
-    """
-    Retrieve the current weather data for a given town and save it to the database.
-
-    Args:
-        town (str): The name of the town to retrieve weather data for.
-    """
-    try:
-        current_weather_data = scraper.scrape_current_weather(town)
-        # for data in current_weather_data:
-        helper.write(current_weather_data)
-    except ValueError as v:
-        print(f'Error retrieving or saving current weather data: {str(v)}')
-
-
-def retrieve_and_save_to_database_forecast_weather(town: str, period: str):
-    """
-    Retrieve the current weather data for a given town and save it to the database.
-
-    Args:
-        town (str): The name of the town to retrieve weather data for.
-    """
-    try:
-        forecast_weather_data = scraper.scrape_weather_ten_days(town, period)
-        for data in forecast_weather_data:
-            helper.write(data)
-    except ValueError as v:
-        print(f'Error retrieving or saving forecast weather data: {str(v)}')
-
-
 if __name__ == '__main__':
 
     retrieve_and_save_current_weather(town_name)
@@ -72,8 +42,6 @@ if __name__ == '__main__':
 
     helper.create_tables()
 
-    retrieve_and_save_to_database_current_weather(town_name)
-    retrieve_and_save_to_database_forecast_weather(town_name, period_weather)
 
 
 
