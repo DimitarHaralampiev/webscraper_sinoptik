@@ -25,7 +25,7 @@ parser.add_argument('--forecast-data-file', default=forecast_weather_csv, help='
 args = parser.parse_args()
 
 
-def retrieve_and_save_current_weather(town: str, data_store: BaseDataStore):
+def retrieve_and_save_current_weather(town: str, save_type: str, data_store: BaseDataStore):
     """
     Retrieves and saves the current weather data for a given town.
 
@@ -36,7 +36,7 @@ def retrieve_and_save_current_weather(town: str, data_store: BaseDataStore):
     try:
         entry = scraper.scrape_current_weather(town)
         if entry:
-            if args.store == 'csv':
+            if save_type == 'csv':
                 data_store.write([entry])
             else:
                 data_store.write(entry)
@@ -44,7 +44,7 @@ def retrieve_and_save_current_weather(town: str, data_store: BaseDataStore):
         print('ERROR retrieving or saving current weather data')
 
 
-def retrieve_and_save_forecast_weather(town: str, period: str, data_store: BaseDataStore):
+def retrieve_and_save_forecast_weather(town: str, period: str, save_type: str,  data_store: BaseDataStore):
     """
     Retrieves and saves the weather forecast data for the next ten days for a given town.
 
@@ -56,7 +56,7 @@ def retrieve_and_save_forecast_weather(town: str, period: str, data_store: BaseD
     try:
         forecast_weather = scraper.scrape_weather_ten_days(town, period)
         if forecast_weather:
-            if args.store == 'csv':
+            if save_type == 'csv':
                 data_store.write(forecast_weather)
             else:
                 for data in forecast_weather:
@@ -71,19 +71,11 @@ if __name__ == '__main__':
         # Use CSVDataStore for storage
         weather_data = CSVDataStore(args.weather_data_file)
         forecast_data = CSVDataStore(args.forecast_data_file)
-        retrieve_and_save_current_weather(town_name, weather_data)
-        retrieve_and_save_forecast_weather(town_name, period_weather, forecast_data)
+        retrieve_and_save_current_weather(town_name, args.store, weather_data)
+        retrieve_and_save_forecast_weather(town_name, period_weather, args.store, forecast_data)
     elif args.store == 'db':
         # Use SQLiteDataStore for storage
         data_store = SQLiteDataStore(args.db_name)
         data_store.create_tables()
-        retrieve_and_save_current_weather(town_name, data_store)
-        retrieve_and_save_forecast_weather(town_name, period_weather, data_store)
-
-
-
-
-
-
-
-
+        retrieve_and_save_current_weather(town_name, args.store, data_store)
+        retrieve_and_save_forecast_weather(town_name, period_weather, args.store, data_store)
