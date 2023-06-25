@@ -14,7 +14,7 @@ helper = SQLiteDataStore(database_name)
 parser = argparse.ArgumentParser(description='Weather Data Scraper')
 
 # Add the storage type argument
-parser.add_argument('--store', choices=['csv', 'db'], default='csv', help='Specify the storage type (csv or db)')
+parser.add_argument('--store', choices=['csv', 'db'], default='db', help='Specify the storage type (csv or db)')
 # Add the database name argument
 parser.add_argument('--db_name', default=database_name, help='Specify the name or path of the database file')
 # Add the CSV filenames argument
