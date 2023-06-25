@@ -11,6 +11,7 @@ scraper = SinoptikScraper(base_url)
 
 helper = SQLiteDataStore(database_name)
 
+
 def retrieve_and_save_current_weather(town: str, save_type: str, data_store: BaseDataStore):
     """
     Retrieves and saves the current weather data for a given town.
@@ -52,17 +53,17 @@ def retrieve_and_save_forecast_weather(town: str, period: str, save_type: str,  
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Weather Data Scraper')
 
+    parser = argparse.ArgumentParser(description='Weather Data Scraper')
     # Add the storage type argument
     parser.add_argument('--store', choices=['csv', 'db'], default='db', help='Specify the storage type (csv or db)')
     # Add the database name argument
     parser.add_argument('--db_name', default=database_name, help='Specify the name or path of the database file')
     # Add the CSV filenames argument
-    parser.add_argument('--weather-data-file', default=weather_data_csv, help='Name or path of the weather data file')
+    parser.add_argument('--weather-data-file', default=weather_data_csv,
+                        help='Name or path of the weather data file')
     parser.add_argument('--forecast-data-file', default=forecast_weather_csv,
                         help='Name or path of the forecast data file')
-
     # Parse the arguments
     args = parser.parse_args()
 
@@ -82,4 +83,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
