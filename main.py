@@ -38,7 +38,7 @@ def retrieve_and_save_current_weather(town: str, data_store: BaseDataStore):
         if entry:
             if args.store == 'csv':
                 data_store.write([entry])
-            elif args.store == 'db':
+            else:
                 data_store.write(entry)
     except ValueError:
         print('ERROR retrieving or saving current weather data')
@@ -58,7 +58,7 @@ def retrieve_and_save_forecast_weather(town: str, period: str, data_store: BaseD
         if forecast_weather:
             if args.store == 'csv':
                 data_store.write(forecast_weather)
-            elif args.store == 'db':
+            else:
                 for data in forecast_weather:
                     data_store.write(data)
     except ValueError:
@@ -67,7 +67,18 @@ def retrieve_and_save_forecast_weather(town: str, period: str, data_store: BaseD
 
 if __name__ == '__main__':
 
-
+    if args.store == 'csv':
+        # Use CSVDataStore for storage
+        weather_data = CSVDataStore(args.weather_data_file)
+        forecast_data = CSVDataStore(args.forecast_data_file)
+        retrieve_and_save_current_weather(town_name, weather_data)
+        retrieve_and_save_forecast_weather(town_name, period_weather, forecast_data)
+    elif args.store == 'db':
+        # Use SQLiteDataStore for storage
+        data_store = SQLiteDataStore(args.db_name)
+        data_store.create_tables()
+        retrieve_and_save_current_weather(town_name, data_store)
+        retrieve_and_save_forecast_weather(town_name, period_weather, data_store)
 
 
 

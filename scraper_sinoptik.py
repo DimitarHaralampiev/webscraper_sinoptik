@@ -42,6 +42,12 @@ class SinoptikScraper:
                     if heading_name == 'Humidity:':
                         humidity = div.find('span', class_='wfCurrentValue').text.strip()
 
+                pattern = r'(\d+) m/s'
+
+                match = re.search(pattern, wind)
+                if match:
+                    wind = match.group(1)
+
                 current_time = str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
                 return {
