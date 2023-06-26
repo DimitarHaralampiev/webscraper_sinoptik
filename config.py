@@ -1,7 +1,7 @@
 import configparser
 
 config = configparser.ConfigParser()
-config.read('config.txt')
+config.read('config.cfg')
 
 database_name = config.get('CONFIG', 'database_name')
 base_url = config.get('CONFIG', 'base_url')
